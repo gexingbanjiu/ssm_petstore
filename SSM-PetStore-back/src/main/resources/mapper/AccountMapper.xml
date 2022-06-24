@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mypetstore_back_management.persistence.AccountMapper">
+   <select id="getAccountByUsernameAndPassword" parameterType="com.example.mypetstore_back_management.domain.Account" resultType="com.example.mypetstore_back_management.domain.Account">
+     select
+            userid,
+            password,
+            telephone,
+            status,
+            addr1,
+            addr2,
+            city,
+            email
+     FROM account , signon
+     WHERE userid=#{userid}
+     AND password=#{password}
+   </select>
+
+    <insert id="insertAccount" parameterType="com.example.mypetstore_back_management.domain.Account">
+    insert
+        into account
+        (userid,email,status,addr1,addr2,city,telephone)
+        values
+        (#{userid},#{email},1,#{addr1},#{addr2},#{city},#{telephone})
+    </insert>
+
+    <insert id="insertSignOn" parameterType="com.example.mypetstore_back_management.domain.Account">
+        insert
+            into signon
+        (username,password)
+        values (#{userid},#{password})
+    </insert>
+
+    <delete id="deleteAccount" parameterType="com.example.mypetstore_back_management.domain.Account">
+        delete
+          from account
+        where userid=#{userid}
+    </delete>
+
+    <delete id="deleteSignOn" parameterType="com.example.mypetstore_back_management.domain.Account">
+        delete
+          from signon
+        where username=#{userid}
+    </delete>
+
+    <update id="updateAccount" parameterType="com.example.mypetstore_back_management.domain.Account">
+        update
+            account
+        set
+        status=#{status},
+        addr1=#{addr1},
+        addr2=#{addr2},
+        city=#{city},
+        phone = #{telephone},
+        email=#{email}
+        where userid=#{userid}
+    </update>
+
+    <update id="updateStatus">
+        update
+           account
+        set
+           status=#{status}
+        where userid=#{userid}
+    </update>
+    <update id="reSetPassword" parameterType="com.example.mypetstore_back_management.domain.Account">
+        update
+           signon
+        set password=123456
+        where username = #{userid}
+    </update>
+
+    <select id="getAllAccount" resultType="com.example.mypetstore_back_management.domain.Account">
+        select
+           *
+        from account ,signon
+        where userid = username
+    </select>
+    <select id="searchAccount" parameterType="string" resultType="com.example.mypetstore_back_management.domain.Account">
+        select
+            userid,
+            telephone,
+            status,
+            addr1,
+            addr2,
+            city,
+            email
+        FROM account
+        WHERE account.userid like #{userid}
+    </select>
+    <select id="searchPassword" parameterType="string" resultType="string">
+        select
+           password
+        from signon
+        where username = #{userid}
+    </select>
+</mapper>

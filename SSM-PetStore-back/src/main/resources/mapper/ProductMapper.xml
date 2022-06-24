@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mypetstore_back_management.persistence.ProductMapper">
+
+    <insert id="insertProduct" parameterType="com.example.mypetstore_back_management.domain.Product">
+
+    </insert>
+
+    <update id="updateProduct" parameterType="com.example.mypetstore_back_management.domain.Product">
+
+    </update>
+
+    <delete id="deleteProduct" parameterType="string">
+
+    </delete>
+
+    <select id="getProductListByCategory" parameterType="string" resultType="com.example.mypetstore_back_management.domain.Product">
+        SELECT
+            PRODUCTID,
+            NAME,
+            DESCN as description,
+            CATEGORY as categoryId
+        FROM PRODUCT
+        WHERE CATEGORY = #{value}
+    </select>
+
+    <select id="getProduct" parameterType="string" resultType="com.example.mypetstore_back_management.domain.Product">
+        SELECT
+            PRODUCTID,
+            NAME,
+            DESCN as description,
+            CATEGORY as categoryId
+        FROM PRODUCT
+        WHERE PRODUCTID = #{productId}
+    </select>
+
+    <select id="searchProductList" parameterType="string" resultType="com.example.mypetstore_back_management.domain.Product">
+        SELECT
+            PRODUCTID,
+            NAME,
+            DESCN as description,
+            CATEGORY as categoryId
+        FROM PRODUCT
+        WHERE lower(name) like #{value}
+    </select>
+    <select id="getProductImage" parameterType="string" resultType="java.lang.String">
+        SELECT
+           DESCN
+        FROM productimage
+        WHERE PRODUCTID = #{productId}
+    </select>
+</mapper>

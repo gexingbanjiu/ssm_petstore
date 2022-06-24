@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SSM-PetStore/JPetStore-SSM.iml" filepath="$PROJECT_DIR$/SSM-PetStore/JPetStore-SSM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SSM-PetStore-back/MyPetStore_back_management.iml" filepath="$PROJECT_DIR$/SSM-PetStore-back/MyPetStore_back_management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ssmpetstore.iml" filepath="$PROJECT_DIR$/.idea/ssmpetstore.iml" />
+    </modules>
+  </component>
+</project>

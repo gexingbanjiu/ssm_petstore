@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mypetstore_back_management.persistence.ItemMapper">
+
+    <insert id="insertItem" parameterType="com.example.mypetstore_back_management.domain.Item">
+        INSERT INTO ITEM (itemid, productid, listprice, unitcost, status)
+        VALUES (#{itemId}, #{productId}, #{listPrice}, #{listPrice}, #{status})
+    </insert>
+    <insert id="insertItemQTY" parameterType="com.example.mypetstore_back_management.domain.Item">
+        INSERT INTO INVENTORY (itemid, qty)
+        VALUES (#{itemId}, #{quantity})
+    </insert>
+
+    <update id="updateItem" parameterType="com.example.mypetstore_back_management.domain.Item">
+        UPDATE ITEM SET
+            LISTPRICE = #{item.listPrice},
+            STATUS = #{item.status}
+        WHERE ITEMID = #{item.itemId}
+    </update>
+    <update id="updateInventoryQuantity">
+        UPDATE INVENTORY SET
+            QTY = #{newQTY}
+        WHERE ITEMID = #{itemId}
+    </update>
+
+    <delete id="deleteItem" parameterType="string">
+        DELETE FROM ITEM
+        WHERE ITEMID= #{itemId}
+    </delete>
+    <delete id="deleteItemQTY" parameterType="string">
+        DELETE FROM INVENTORY
+        WHERE ITEMID= #{itemId}
+    </delete>
+
+    <select id="getItemListByProduct" parameterType="string" resultType="com.example.mypetstore_back_management.domain.Item">
+        SELECT
+            I.ITEMID,
+            LISTPRICE,
+            UNITCOST,
+            SUPPLIER AS supplierId,
+            I.PRODUCTID AS "product.productId",
+            NAME AS "product.name",
+            DESCN AS "product.description",
+            CATEGORY AS "product.categoryId",
+            STATUS,
+            ATTR1 AS attribute1,
+            ATTR2 AS attribute2,
+            ATTR3 AS attribute3,
+            ATTR4 AS attribute4,
+            ATTR5 AS attribute5,
+            QTY AS quantity
+        FROM ITEM I, PRODUCT P, INVENTORY V
+        WHERE P.PRODUCTID = I.PRODUCTID
+          AND I.PRODUCTID = #{value}
+          AND V.ITEMID = I.ITEMID
+    </select>
+
+    <select id="getItem" parameterType="string" resultType="com.example.mypetstore_back_management.domain.Item">
+        SELECT
+            I.ITEMID,
+            LISTPRICE,
+            UNITCOST,
+            SUPPLIER AS supplierId,
+            I.PRODUCTID AS productId,
+            NAME AS name,
+            DESCN AS description,
+            CATEGORY AS categoryId,
+            STATUS AS staus,
+            ATTR1 AS attribute1,
+            ATTR2 AS attribute2,
+            ATTR3 AS attribute3,
+            ATTR4 AS attribute4,
+            ATTR5 AS attribute5,
+            QTY AS quantity
+        FROM ITEM I, INVENTORY V, PRODUCT P
+        WHERE P.PRODUCTID = I.PRODUCTID
+          AND I.ITEMID = V.ITEMID
+          AND I.ITEMID = #{value}
+    </select>
+
+    <select id="getInventoryQuantity" parameterType="string" resultType="java.lang.Integer">
+        SELECT QTY AS value
+        FROM INVENTORY
+        WHERE ITEMID = #{itemId}
+    </select>
+
+</mapper>
